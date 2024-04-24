@@ -1,4 +1,8 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-prototype-builtins */
 import { aspectRatioOptions } from "@/constant";
+
+import qs from "qs";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -79,3 +83,28 @@ export const getImageSize = (
   }
   return image?.[dimension] || 1000;
 };
+
+// FORM URL QUERY
+export const formUrlQuery = ({
+  searchParams,
+  key,
+  value,
+}: FormUrlQueryParams) => {
+  const params = { ...qs.parse(searchParams.toString()), [key]: value };
+
+  return `${window.location.pathname}?${qs.stringify(params, {
+    skipNulls: true,
+  })}`;
+};
+
+// REMOVE KEY FROM QUERY
+export function removeKeysFromQuery({
+  searchParams,
+  keysToRemove,
+}: RemoveUrlQueryParams) {
+  const currentUrl = qs.parse(searchParams);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+}
