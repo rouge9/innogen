@@ -319,17 +319,15 @@ export default function TransformationForm({
               )}
             />
           </div>
-          <div className="flex flex-col gap-4">
-            <h1 className="text-xl font-semibold text-primary">Transformed</h1>
-            <TransformedImage
-              image={image}
-              type={type}
-              title={form.getValues().title}
-              isTransforming={isTransforming}
-              setIsTransforming={setIsTransforming}
-              transformationConfig={transformationConfig}
-            />
-          </div>
+
+          <TransformedImage
+            image={image}
+            type={type}
+            title={form.getValues().title}
+            isTransforming={isTransforming}
+            setIsTransforming={setIsTransforming}
+            transformationConfig={transformationConfig}
+          />
         </div>
         <div className="flex flex-col gap-4">
           <Button

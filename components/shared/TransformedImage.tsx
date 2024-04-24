@@ -1,10 +1,12 @@
 "use client";
 
-import { dataUrl, debounce, getImageSize } from "@/lib/utils";
+import { dataUrl, debounce, download, getImageSize } from "@/lib/utils";
 import { CldImage, getCldImageUrl } from "next-cloudinary";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import React from "react";
+import { Button } from "../ui/button";
+import { DownloadCloudIcon } from "lucide-react";
 
 const TransformedImage = ({
   image,
@@ -15,39 +17,37 @@ const TransformedImage = ({
   setIsTransforming,
   hasDownload = false,
 }: TransformedImageProps) => {
-  // const downloadHandler = (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   e.preventDefault();
+  const downloadHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
 
-  //   download(
-  //     getCldImageUrl({
-  //       width: image?.width,
-  //       height: image?.height,
-  //       src: image?.publicId,
-  //       ...transformationConfig,
-  //     }),
-  //     title
-  //   );
-  // };
+    download(
+      getCldImageUrl({
+        width: image?.width,
+        height: image?.height,
+        src: image?.publicId,
+        ...transformationConfig,
+      }),
+      title
+    );
+  };
 
   return (
-    <div className="flex-1 flex justify-center items-center rounded-lg border border-dashed shadow-lg bg-muted min-h-72">
-      {/* <div className="flex-between">
-        <h3 className="h3-bold text-dark-600">Transformed</h3>
-
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between">
+        <h1 className="text-xl font-semibold text-primary">Transformed</h1>
         {hasDownload && (
-          <button className="download-btn" onClick={downloadHandler}>
-            <Image
-              src="/assets/icons/download.svg"
-              alt="Download"
-              width={24}
-              height={24}
-              className="pb-[6px]"
-            />
-          </button>
+          <Button
+            onClick={downloadHandler}
+            className="text-primary"
+            variant="ghost"
+            size="icon"
+          >
+            <DownloadCloudIcon size={20} />
+          </Button>
         )}
-      </div> */}
+      </div>
 
       {image?.publicId && transformationConfig ? (
         <div className="relative">
@@ -83,7 +83,9 @@ const TransformedImage = ({
           )}
         </div>
       ) : (
-        <div className="transformed-placeholder">Transformed Image</div>
+        <div className="flex justify-center items-center p-14-medium h-full min-h-72 flex-col gap-5 rounded-lg border border-dashed bg-muted shadow-lg">
+          Transformed Image
+        </div>
       )}
     </div>
   );
