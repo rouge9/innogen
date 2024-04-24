@@ -75,20 +75,15 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
                 className="h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-purple-100/20 object-cover p-2"
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <h3 className="text-lg font-semibold text-primary">
-                Transformed
-              </h3>
-              {/* TRANSFORMED IMAGE */}
-              <TransformedImage
-                image={image}
-                type={image.transformationType}
-                title={image.title}
-                isTransforming={false}
-                transformationConfig={image.config}
-                hasDownload={true}
-              />
-            </div>
+            {/* TRANSFORMED IMAGE */}
+            <TransformedImage
+              image={image}
+              type={image.transformationType}
+              title={image.title}
+              isTransforming={false}
+              transformationConfig={image.config}
+              hasDownload={true}
+            />
           </div>
 
           {userId === image.author.clerkId && (
