@@ -21,7 +21,7 @@ export default function SiderBar() {
             <NavLinks start={0} end={6} />
           </nav>
         </div>
-        <div className="mt-auto p-4 bottom-0 fixed">
+        <div className="mt-auto p-8 bottom-0 fixed grid items-start px-2 text-sm font-medium lg:px-4">
           <NavLinks start={6} end={8} />
         </div>
       </div>

@@ -134,7 +134,6 @@ export default function TransformationForm({
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-
     if (data || image) {
       const transformationUrl = getCldImageUrl({
         width: image?.width,
@@ -218,7 +217,7 @@ export default function TransformationForm({
               formLabel="Image Title"
               className="w-full"
               render={({ field }) => (
-                <Input {...field} className="w-full h-14 rounded-lg" />
+                <Input className="w-full h-14 rounded-lg" {...field} />
               )}
             />
           )}

@@ -1,7 +1,21 @@
-import React from "react";
+import Collection from "@/components/shared/Collection";
+import { getAllImages } from "@/lib/actions/image.actions";
 
-function page() {
-  return <div>page</div>;
-}
+const Home = async ({ searchParams }: SearchParamProps) => {
+  const page = Number(searchParams?.page) || 1;
+  const searchQuery = (searchParams?.query as string) || "";
 
-export default page;
+  const images = await getAllImages({ page, searchQuery });
+  return (
+    <div className="p-8">
+      <Collection
+        hasSearch={true}
+        images={images?.data}
+        totalPages={images?.totalPage}
+        page={page}
+      />
+    </div>
+  );
+};
+
+export default Home;

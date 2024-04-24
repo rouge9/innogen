@@ -83,6 +83,7 @@ export default function MediaUploader({
             <div className="flex-1 flex justify-center items-center rounded-lg border border-dashed shadow-lg bg-muted min-h-72">
               <div className="flex flex-col justify-center items-center gap-4">
                 <Button
+                  type="button"
                   onClick={() => open()}
                   className="rounded-xl p-6 bg-primary text-accent hover:bg-muted-foreground hover:text-primary shadow-2xl"
                   variant="outline"

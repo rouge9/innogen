@@ -50,7 +50,7 @@ const TransformedImage = ({
       </div>
 
       {image?.publicId && transformationConfig ? (
-        <div className="relative">
+        <div className="">
           <CldImage
             width={getImageSize(type, image, "width")}
             height={getImageSize(type, image, "height")}
@@ -69,18 +69,6 @@ const TransformedImage = ({
             }}
             {...transformationConfig}
           />
-
-          {isTransforming && (
-            <div className="absolute flex items-center justify-center size-full flex-col gap-4">
-              <Image
-                src="/assets/icons/spinner.svg"
-                width={50}
-                height={50}
-                alt="spinner"
-              />
-              <p className="text-white/80">Please wait...</p>
-            </div>
-          )}
         </div>
       ) : (
         <div className="flex justify-center items-center p-14-medium h-full min-h-72 flex-col gap-5 rounded-lg border border-dashed bg-muted shadow-lg">

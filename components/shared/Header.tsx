@@ -32,14 +32,12 @@ export default function Header() {
           <nav className="grid gap-2 text-lg font-medium">
             <NavLinks start={0} end={6} />
           </nav>
-          <div className="mt-auto p-4 bottom-0 fixed">
+          <div className="mt-auto p-8 bottom-0 fixed grid gap-2 text-lg font-medium">
             <NavLinks start={6} end={8} />
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1">
-        <Search />
-      </div>
+      <div className="w-full flex-1">{/* <Search /> */}</div>
       <UserButton afterSignOutUrl="/dashboard" />
       <ModeToggle />
     </header>

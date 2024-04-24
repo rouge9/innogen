@@ -42,8 +42,10 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             <>
               <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
               <div className="p-14-medium md:p-16-medium flex gap-2">
-                <p className="text-dark-600">Color:</p>
-                <p className=" capitalize text-purple-400">{image.color}</p>
+                <p className="text-primary">Color:</p>
+                <p className=" capitalize text-muted-foreground">
+                  {image.color}
+                </p>
               </div>
             </>
           )}
@@ -52,8 +54,8 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             <>
               <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
               <div className="p-14-medium md:p-16-medium flex gap-2">
-                <p className="text-dark-600">Aspect Ratio:</p>
-                <p className=" capitalize text-purple-400">
+                <p className="text-primary">Aspect Ratio:</p>
+                <p className=" capitalize text-muted-foreground">
                   {image.aspectRatio}
                 </p>
               </div>
@@ -93,7 +95,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
                 type="button"
                 className="bg-cover rounded-full py-4 px-6 p-16-semibold h-[50px] w-full md:h-[54px] capitalize"
               >
-                <Link href={`/transformations/${image._id}/update`}>
+                <Link href={`/dashboard/transformations/${image._id}/update`}>
                   Update Image
                 </Link>
               </Button>
