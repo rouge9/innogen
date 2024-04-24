@@ -28,10 +28,15 @@ import {
   aspectRatioOptions,
   transformationTypes,
   defaultValues,
+  creditFee,
 } from "@/constant";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { addImage, updateImage } from "@/lib/actions/image.actions";
+import { getCldImageUrl } from "next-cloudinary";
+import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
+import { updateCredits } from "@/lib/actions/user.actions";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -81,12 +86,14 @@ export default function TransformationForm({
     onChangeField: (value: string) => void
   ) => {
     const imageSize = aspectRatioOptions[value as AspectRatioKey];
+
     setImage((prevState: any) => ({
       ...prevState,
       aspectRatio: imageSize.aspectRatio,
       width: imageSize.width,
       height: imageSize.height,
     }));
+
     setNewTransformation(transformationType.config);
 
     return onChangeField(value);
@@ -111,7 +118,6 @@ export default function TransformationForm({
     return onChangeField(value);
   };
 
-  // TODO: Implement the transformation handler.
   const onTransformHandler = async () => {
     setIsTransforming(true);
 
@@ -122,19 +128,86 @@ export default function TransformationForm({
     setNewTransformation(null);
 
     startTransition(async () => {
-      // await updateCredits(userId, creditFee);
+      await updateCredits(userId, creditFee);
     });
   };
-
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+
+    if (data || image) {
+      const transformationUrl = getCldImageUrl({
+        width: image?.width,
+        height: image?.height,
+        src: image?.publicId,
+        ...transformationConfig,
+      });
+
+      const imageData = {
+        title: values.title,
+        publicId: image?.publicId,
+        transformationType: type,
+        width: image?.width,
+        height: image?.height,
+        config: transformationConfig,
+        secureURL: image?.secureURL,
+        transformationURL: transformationUrl,
+        aspectRatio: values.aspectRatio,
+        prompt: values.prompt,
+        color: values.color,
+      };
+
+      if (action === "Add") {
+        try {
+          const newImage = await addImage({
+            image: imageData,
+            userId,
+            path: "/",
+          });
+
+          if (newImage) {
+            form.reset();
+            setImage(data);
+            router.push(`/dashboard/transformations/${newImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      if (action === "Update") {
+        try {
+          const updatedImage = await updateImage({
+            image: {
+              ...imageData,
+              _id: data._id,
+            },
+            userId,
+            path: `/dashboard/transformations/${data._id}`,
+          });
+
+          if (updatedImage) {
+            router.push(`/dashboard/transformations/${updatedImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+
+    setIsSubmitting(false);
   }
+
+  useEffect(() => {
+    if (image && (type === "restore" || type === "removeBackground")) {
+      setNewTransformation(transformationType.config);
+    }
+  }, [image, transformationType.config, type]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <FormField
           control={form.control}
           name="title"
@@ -145,7 +218,7 @@ export default function TransformationForm({
               formLabel="Image Title"
               className="w-full"
               render={({ field }) => (
-                <Input className="w-full h-14 rounded-lg" {...field} />
+                <Input {...field} className="w-full h-14 rounded-lg" />
               )}
             />
           )}
@@ -194,9 +267,9 @@ export default function TransformationForm({
                   value={field.value}
                   onChange={(e) =>
                     onInputChangeHandler(
-                      "color",
+                      "prompt",
                       e.target.value,
-                      "recolor",
+                      type,
                       field.onChange
                     )
                   }
@@ -212,8 +285,8 @@ export default function TransformationForm({
                 className="w-full"
                 render={({ field }) => (
                   <Input
-                    className="w-full h-14 rounded-lg"
                     value={field.value}
+                    className="w-full h-14 rounded-lg"
                     onChange={(e) =>
                       onInputChangeHandler(
                         "color",
@@ -248,11 +321,13 @@ export default function TransformationForm({
           </div>
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-semibold text-primary">Transformed</h1>
-            <CustomField
-              control={form.control}
-              name="publicId"
-              className=""
-              render={({ field }) => <TransformedImage />}
+            <TransformedImage
+              image={image}
+              type={type}
+              title={form.getValues().title}
+              isTransforming={isTransforming}
+              setIsTransforming={setIsTransforming}
+              transformationConfig={transformationConfig}
             />
           </div>
         </div>

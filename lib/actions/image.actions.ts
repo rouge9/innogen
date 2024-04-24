@@ -113,7 +113,7 @@ export async function getAllImages({
       secure: true,
     });
 
-    let expression = "folder=imaginerator";
+    let expression = "folder=innogen";
 
     if (searchQuery) {
       expression += ` AND ${searchQuery}`;

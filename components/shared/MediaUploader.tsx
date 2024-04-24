@@ -53,8 +53,6 @@ export default function MediaUploader({
     });
   };
 
-  console.log(publicId);
-
   return (
     <CldUploadWidget
       uploadPreset="innogen"
@@ -66,34 +64,36 @@ export default function MediaUploader({
       onError={onUploadErrorHandler}
     >
       {({ open }) => (
-        <div className="flex-1 flex justify-center items-center rounded-lg border border-dashed shadow-lg bg-muted h-full min-h-72">
-          <div className="flex flex-col justify-center items-center gap-4 p-8">
-            {publicId ? (
-              <>
-                <div className="cursor-pointer overflow-hidden rounded-[10px]">
-                  <CldImage
-                    width={getImageSize(type, image, "width")}
-                    height={getImageSize(type, image, "height")}
-                    src={publicId}
-                    alt="image"
-                    sizes={"(max-width: 767px) 100vw, 50vw"}
-                    placeholder={dataUrl as PlaceholderValue}
-                    className="h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-muted-foreground object-cover p-2"
-                  />
-                </div>
-              </>
-            ) : (
-              <Button
-                onClick={() => open()}
-                className="rounded-xl p-6 bg-primary text-accent hover:bg-muted-foreground hover:text-primary shadow-2xl"
-                variant="outline"
-              >
-                <PlusIcon size={24} className="" />
-              </Button>
-            )}
-            <span className="text-lg text-primary">Upload Image</span>
-          </div>
-        </div>
+        <>
+          {publicId ? (
+            <>
+              <div className="cursor-pointer overflow-hidden rounded-[10px]">
+                <CldImage
+                  width={getImageSize(type, image, "width")}
+                  height={getImageSize(type, image, "height")}
+                  src={publicId}
+                  alt="image"
+                  sizes={"(max-width: 767px) 100vw, 50vw"}
+                  placeholder={dataUrl as PlaceholderValue}
+                  className="h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-muted-foreground object-cover"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex-1 flex justify-center items-center rounded-lg border border-dashed shadow-lg bg-muted min-h-72">
+              <div className="flex flex-col justify-center items-center gap-4">
+                <Button
+                  onClick={() => open()}
+                  className="rounded-xl p-6 bg-primary text-accent hover:bg-muted-foreground hover:text-primary shadow-2xl"
+                  variant="outline"
+                >
+                  <PlusIcon size={24} />
+                </Button>
+                <span className="text-lg text-primary">Upload Image</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </CldUploadWidget>
   );

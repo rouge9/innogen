@@ -33,7 +33,7 @@ export const CustomField = ({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          {formLabel && <FormLabel className="">{formLabel}</FormLabel>}
+          {formLabel && <FormLabel>{formLabel}</FormLabel>}
           <FormControl>{render({ field })}</FormControl>
           <FormMessage />
         </FormItem>

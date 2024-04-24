@@ -48,7 +48,7 @@ export default function Header() {
           </div>
         </form>
       </div>
-      <UserButton />
+      <UserButton afterSignOutUrl="/dashboard" />
       <ModeToggle />
     </header>
   );
