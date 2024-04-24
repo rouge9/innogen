@@ -24,9 +24,14 @@ import { Input } from "@/components/ui/input";
 import { CustomField } from "./CustomeField";
 import MediaUploader from "./MediaUploader";
 import TransformedImage from "./TransformedImage";
-import { aspectRatioOptions, transformationTypes } from "@/constant";
-import { useState } from "react";
-import { AspectRatioKey } from "@/lib/utils";
+import {
+  aspectRatioOptions,
+  transformationTypes,
+  defaultValues,
+} from "@/constant";
+import { useState, useTransition } from "react";
+import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -36,21 +41,39 @@ export const formSchema = z.object({
   publicId: z.string(),
 });
 
-export default function TransformationForm({ type, data }: any) {
+export default function TransformationForm({
+  action,
+  data = null,
+  userId,
+  type,
+  creditBalance,
+  config = null,
+}: TransformationFormProps) {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTransforming, setIsTransforming] = useState(false);
+  const [transformationConfig, setTransformationConfig] = useState(config);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const initialValues =
+    data && action === "Update"
+      ? {
+          title: data?.title,
+          aspectRatio: data?.aspectRatio,
+          color: data?.color,
+          prompt: data?.prompt,
+          publicId: data?.publicId,
+        }
+      : defaultValues;
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      aspectRatio: "",
-      color: "",
-      prompt: "",
-      publicId: "",
-    },
+    defaultValues: initialValues,
   });
 
   const onSelectFieldHandler = (
@@ -67,6 +90,40 @@ export default function TransformationForm({ type, data }: any) {
     setNewTransformation(transformationType.config);
 
     return onChangeField(value);
+  };
+
+  const onInputChangeHandler = (
+    fieldName: string,
+    value: string,
+    type: string,
+    onChangeField: (value: string) => void
+  ) => {
+    debounce(() => {
+      setNewTransformation((prevState: any) => ({
+        ...prevState,
+        [type]: {
+          ...prevState?.[type],
+          [fieldName === "prompt" ? "prompt" : "to"]: value,
+        },
+      }));
+    }, 1000)();
+
+    return onChangeField(value);
+  };
+
+  // TODO: Implement the transformation handler.
+  const onTransformHandler = async () => {
+    setIsTransforming(true);
+
+    setTransformationConfig(
+      deepMergeObjects(newTransformation, transformationConfig)
+    );
+
+    setNewTransformation(null);
+
+    startTransition(async () => {
+      // await updateCredits(userId, creditFee);
+    });
   };
 
   // 2. Define a submit handler.
@@ -132,7 +189,18 @@ export default function TransformationForm({ type, data }: any) {
               }
               className="w-full"
               render={({ field }) => (
-                <Input className="w-full h-14 rounded-lg" {...field} />
+                <Input
+                  className="w-full h-14 rounded-lg"
+                  value={field.value}
+                  onChange={(e) =>
+                    onInputChangeHandler(
+                      "color",
+                      e.target.value,
+                      "recolor",
+                      field.onChange
+                    )
+                  }
+                />
               )}
             />
 
@@ -143,7 +211,18 @@ export default function TransformationForm({ type, data }: any) {
                 formLabel="Replacement Color"
                 className="w-full"
                 render={({ field }) => (
-                  <Input className="w-full h-14 rounded-lg" {...field} />
+                  <Input
+                    className="w-full h-14 rounded-lg"
+                    value={field.value}
+                    onChange={(e) =>
+                      onInputChangeHandler(
+                        "color",
+                        e.target.value,
+                        "recolor",
+                        field.onChange
+                      )
+                    }
+                  />
                 )}
               />
             )}
@@ -155,7 +234,16 @@ export default function TransformationForm({ type, data }: any) {
             <CustomField
               control={form.control}
               name="publicId"
-              render={({ field }) => <MediaUploader />}
+              className="flex size-full flex-col"
+              render={({ field }) => (
+                <MediaUploader
+                  onValueChange={field.onChange}
+                  setImage={setImage}
+                  publicId={field.value}
+                  image={image}
+                  type={type}
+                />
+              )}
             />
           </div>
           <div className="flex flex-col gap-4">
@@ -170,16 +258,19 @@ export default function TransformationForm({ type, data }: any) {
         </div>
         <div className="flex flex-col gap-4">
           <Button
-            type="submit"
+            type="button"
             className="bg-cover rounded-full py-4 px-6 p-16-semibold h-[50px] w-full md:h-[54px] capitalize"
+            disabled={isTransforming || newTransformation === null}
+            onClick={onTransformHandler}
           >
-            Apply Transformation
+            {isTransforming ? "Transforming..." : "Apply Transformation"}
           </Button>
           <Button
             type="submit"
             className="bg-cover rounded-full py-4 px-6 p-16-semibold h-[50px] w-full md:h-[54px] capitalize"
+            disabled={isSubmitting}
           >
-            Save Image
+            {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>
         </div>
       </form>

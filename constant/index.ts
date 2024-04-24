@@ -102,3 +102,11 @@ export const aspectRatioOptions = {
     height: 1778,
   },
 };
+
+export const defaultValues = {
+  title: "",
+  aspectRatio: "",
+  color: "",
+  prompt: "",
+  publicId: "",
+};
