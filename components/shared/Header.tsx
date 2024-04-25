@@ -38,7 +38,7 @@ export default function Header() {
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">{/* <Search /> */}</div>
-      <UserButton afterSignOutUrl="/dashboard" />
+      <UserButton afterSignOutUrl="/" />
       <ModeToggle />
     </header>
   );

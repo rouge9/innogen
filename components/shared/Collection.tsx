@@ -97,6 +97,7 @@ export default function Collection({
 const Card = ({ image }: { image: IImage }) => {
   const Icon =
     transformationTypes[image.transformationType as TransformationTypeKey].icon;
+
   return (
     <li>
       <Link
