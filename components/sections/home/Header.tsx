@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/shared/MoodToggle";
-import { Menu, Package2 } from "lucide-react";
+import { Menu, Package2, Wand } from "lucide-react";
 import Link from "next/link";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
@@ -15,7 +15,7 @@ function Header() {
           href="#"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Package2 className="h-6 w-6" />
+          <Wand className="h-6 w-6" />
           <span className="sr-only">Acme Inc</span>
         </Link>
         <NavLinks />

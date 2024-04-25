@@ -76,9 +76,9 @@ function Pricing() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="flex-shrink-0 mt-0.5 size-4 text-red-600 dark:text-red-500"
               >
                 <path d="M18 6 6 18" />
@@ -96,9 +96,9 @@ function Pricing() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="flex-shrink-0 mt-0.5 size-4 text-red-600 dark:text-red-500"
               >
                 <path d="M18 6 6 18" />
@@ -211,9 +211,9 @@ function Pricing() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="flex-shrink-0 mt-0.5 size-4 text-red-600 dark:text-red-500"
               >
                 <path d="M18 6 6 18" />
