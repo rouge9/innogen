@@ -5,7 +5,7 @@ import TransformationForm from "@/components/shared/TransformationForm";
 import { getUserById } from "@/lib/actions/user.actions";
 import { getImageById } from "@/lib/actions/image.actions";
 import { auth } from "@clerk/nextjs/server";
-import { transformationTypes } from "@/constant";
+import { transformationTypes } from "@/app/(const)";
 
 const Page = async ({ params: { id } }: SearchParamProps) => {
   const { userId } = auth();

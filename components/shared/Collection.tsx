@@ -12,7 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { transformationTypes } from "@/constant";
+import { transformationTypes } from "@/app/(const)";
 import { IImage } from "@/lib/database/models/images.model";
 import { dataUrl, formUrlQuery } from "@/lib/utils";
 
