@@ -10,10 +10,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col">
         <Header />
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div
-            className="flex-1  rounded-lg border border-dashed shadow-sm"
-            x-chunk="dashboard-02-chunk-1"
-          >
+          <div className="flex-1  rounded-lg border border-dashed shadow-sm">
             {children}
           </div>
         </main>

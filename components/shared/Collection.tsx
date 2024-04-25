@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/pagination";
 import { transformationTypes } from "@/constant";
 import { IImage } from "@/lib/database/models/images.model";
-import { formUrlQuery } from "@/lib/utils";
+import { dataUrl, formUrlQuery } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 import Search from "./Search";
+import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
 
 export default function Collection({
   hasSearch = false,
@@ -96,7 +97,6 @@ export default function Collection({
 const Card = ({ image }: { image: IImage }) => {
   const Icon =
     transformationTypes[image.transformationType as TransformationTypeKey].icon;
-
   return (
     <li>
       <Link
@@ -112,6 +112,7 @@ const Card = ({ image }: { image: IImage }) => {
           loading="lazy"
           className="h-52 w-full rounded-[10px] object-cover"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+          placeholder={dataUrl as PlaceholderValue}
         />
         <div className="flex justify-between">
           <p className="p-20-semibold mr-3 line-clamp-1 text-dark-600">
