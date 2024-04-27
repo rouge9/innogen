@@ -26,7 +26,7 @@ function Feature() {
               </span>
             </p>
             <p className="mt-2 sm:mt-3 text-gray-500">
-              of U.S. adults have bought from businesses using Space
+              of U.S. adults have bought from our platform in the last 6 months
             </p>
           </div>
         </div>
@@ -35,12 +35,14 @@ function Feature() {
           <div className="grid gap-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-3 sm:gap-8">
             <div>
               <p className="text-3xl font-semibold text-blue-600">99.95%</p>
-              <p className="mt-1 text-gray-500">in fulfilling orders</p>
+              <p className="mt-1 text-gray-500">
+                in fulfilling what we promise
+              </p>
             </div>
 
             <div>
               <p className="text-3xl font-semibold text-blue-600">2,000+</p>
-              <p className="mt-1 text-gray-500">partner with Preline</p>
+              <p className="mt-1 text-gray-500">partner with innogen</p>
             </div>
 
             <div>

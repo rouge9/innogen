@@ -8,14 +8,16 @@ import Testemonial from "@/components/sections/home/Testemonial";
 
 export default function Home() {
   return (
-    <main className="">
+    <>
       <Header />
-      <Hero />
-      <Feature />
-      <Testemonial />
-      <Pricing />
-      <Faq />
-      <Footer />
-    </main>
+      <main className="w-full">
+        <Hero />
+        <Feature />
+        <Testemonial />
+        <Pricing />
+        <Faq />
+        <Footer />
+      </main>
+    </>
   );
 }

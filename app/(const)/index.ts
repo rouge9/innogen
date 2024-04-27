@@ -1,12 +1,9 @@
 import {
-  Home,
   Image,
   Sparkles,
   ScanLine,
   PaintBucket,
   CameraOff,
-  ShoppingBag,
-  SquareUserRound,
 } from "lucide-react";
 
 export const transformationTypes = {
